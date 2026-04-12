@@ -2,6 +2,17 @@
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
+const countryForm = document.querySelector('#country-form');
+const countrySelect = document.querySelector('#country');
+
+countryForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  const country = countrySelect.value;
+  getCountryAndNeighbour(country);
+  
+});
+
+console.log(countrySelect.value);
 
 // NEW COUNTRIES API URL (use instead of the URL shown in videos):
 // https://restcountries.com/v2/name/portugal
@@ -92,4 +103,5 @@ const getCountryAndNeighbour = function (country) {
   });
 };
 
-getCountryAndNeighbour('brazil');
+// getCountryAndNeighbour('usa');
+
