@@ -7,9 +7,10 @@ const countrySelect = document.querySelector('#country');
 
 countryForm.addEventListener('submit', function (e) {
   e.preventDefault();
+  countriesContainer.innerHTML = "";
   const country = countrySelect.value;
   getCountryAndNeighbour(country);
-  
+
 });
 
 console.log(countrySelect.value);
@@ -70,6 +71,7 @@ const renderCountry = function (data, className = '') {
 };
 
 const getCountryAndNeighbour = function (country) {
+  
   // AJAX call country 1
   const request = new XMLHttpRequest();
   request.open('GET', `https://restcountries.com/v2/name/${country}`);
