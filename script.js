@@ -1,18 +1,18 @@
 'use strict';
 
-const btn = document.querySelector('.btn-country');
-const countriesContainer = document.querySelector('.countries');
-const countryForm = document.querySelector('#country-form');
-const countrySelect = document.querySelector('#country');
+// const btn = document.querySelector('.btn-country');
+// const countriesContainer = document.querySelector('.countries');
+// const countryForm = document.querySelector('#country-form');
+// const countrySelect = document.querySelector('#country');
 
-countryForm.addEventListener('submit', function (e) {
-  e.preventDefault();
-  countriesContainer.innerHTML = "";
-  const country = countrySelect.value;
-  //getCountryAndNeighbour(country);
-  getCountryData(country);
+// countryForm.addEventListener('submit', function (e) {
+//   e.preventDefault();
+//   countriesContainer.innerHTML = "";
+//   const country = countrySelect.value;
+//   //getCountryAndNeighbour(country);
+//   getCountryData(country);
 
-});
+// });
 
 // NEW COUNTRIES API URL (use instead of the URL shown in videos):
 // https://restcountries.com/v2/name/portugal
@@ -50,7 +50,8 @@ const getCountryData = function (country) {
 getCountryData('brazil');
 getCountryData('usa');
 getCountryData('portugal');
-*/
+
+
 
 const renderCountry = function (data, className = '') {
   const html = `
@@ -69,7 +70,8 @@ const renderCountry = function (data, className = '') {
     // countriesContainer.style.opacity = 1;
 };
 
-/*
+
+
 const getCountryAndNeighbour = function (country) {
   
   // AJAX call country 1
@@ -123,7 +125,7 @@ const getCountryData = function (country) {
     });
 };
 
-*/
+
 
 const getJSON = function (url, errorMsg = 'Something went wrong') {
   return fetch(url).then(response => {
@@ -168,6 +170,8 @@ const getCountryData = function (country) {
 };
 
 //getCountryData('usa');
+*/
+
 
 
 /*
@@ -263,7 +267,8 @@ const getPosition = function () {
     navigator.geolocation.getCurrentPosition(position => resolve(position), err => reject(err));
   });
 }
-*/
+
+
 
 const getPosition = function () {
   return new Promise(function (resolve, reject) {
@@ -300,3 +305,48 @@ const whereAmI = function () {
   };
 
   btn.addEventListener('click', whereAmI);
+  */
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+    img.src = imgPath;
+
+    img.addEventListener('load', function () {
+      document.querySelector('.images').appendChild(img);
+      resolve(img);
+    });
+
+    img.addEventListener('error', function () {
+      reject(new Error('Image not found'));
+    });
+  });
+};
+
+let currentImg;
+
+createImage('img/img-1.jpg')
+  .then(img => {
+    currentImg = img;
+    console.log('Image 1 loaded');
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+    return createImage('img/img-2.jpg');
+  })
+  .then(img => {
+    currentImg = img;
+    console.log('Image 2 loaded');
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+  })
+  .catch(err => console.error(err));
