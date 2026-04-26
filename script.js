@@ -314,19 +314,21 @@ const wait = function (seconds) {
 };
 
 const createImage = function (imgPath) {
+  //---------------------------------------------
   return new Promise(function (resolve, reject) {
     const img = document.createElement('img');
     img.src = imgPath;
-
+    //Loading image
     img.addEventListener('load', function () {
       document.querySelector('.images').appendChild(img);
       resolve(img);
     });
-
+    //Error loading image
     img.addEventListener('error', function () {
       reject(new Error('Image not found'));
     });
   });
+  // ---------------------------------------------
 };
 
 let currentImg;
