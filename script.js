@@ -1,7 +1,7 @@
 'use strict';
 
 // const btn = document.querySelector('.btn-country');
-// const countriesContainer = document.querySelector('.countries');
+const countriesContainer = document.querySelector('.countries');
 // const countryForm = document.querySelector('#country-form');
 // const countrySelect = document.querySelector('#country');
 
@@ -50,7 +50,7 @@ const getCountryData = function (country) {
 getCountryData('brazil');
 getCountryData('usa');
 getCountryData('portugal');
-
+*/
 
 
 const renderCountry = function (data, className = '') {
@@ -67,11 +67,11 @@ const renderCountry = function (data, className = '') {
       </article>
     `;
     countriesContainer.insertAdjacentHTML('beforeend', html);
-    // countriesContainer.style.opacity = 1;
+    countriesContainer.style.opacity = 1;
 };
 
 
-
+/*
 const getCountryAndNeighbour = function (country) {
   
   // AJAX call country 1
@@ -267,6 +267,7 @@ const getPosition = function () {
     navigator.geolocation.getCurrentPosition(position => resolve(position), err => reject(err));
   });
 }
+*/
 
 
 
@@ -275,6 +276,7 @@ const getPosition = function () {
     navigator.geolocation.getCurrentPosition(position => resolve(position), err => reject(err));
   });
 };
+/*
 
 getPosition().then(pos => console.log(pos));
   
@@ -305,7 +307,7 @@ const whereAmI = function () {
   };
 
   btn.addEventListener('click', whereAmI);
-  */
+  
 
 const wait = function (seconds) {
   return new Promise(function (resolve) {
@@ -352,3 +354,25 @@ createImage('img/img-1.jpg')
     currentImg.style.display = 'none';
   })
   .catch(err => console.error(err));
+
+  */
+
+const whereAmI = async function () {
+  const pos = await getPosition();
+  const { latitude: lat, longitude: lng } = pos.coords;
+  //----------------------------------------------------------------------------------------------------------------------//
+    
+  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+  const dataGeo = await resGeo.json();
+  console.log(dataGeo);
+  console.log(`You are in ${dataGeo.city}, ${dataGeo.country}`);
+  //----------------------------------------------------------------------------------------------------------------------//
+
+  const countryResponse = await fetch(`https://restcountries.com/v2/name/${dataGeo.country}`);
+  const data = await countryResponse.json();
+  console.log(data);
+  renderCountry(data[0]);
+};
+
+whereAmI();
+console.log('FIRST');
